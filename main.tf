@@ -5,11 +5,24 @@ module "network_vpc" {
 
   for_each   = var.vpc
   cidr_block = each.value.cidr_block
-  public_subnets_cidr = each.value.public_subnets_cidr
-  private_subnets_cidr = each.value.private_subnets_cidr
-  availability_zones  = each.value.availability_zones
 
 }
 
 
 
+module "subnet" {
+  source     = "github.com/pcs1999/tf-module-subnet.git"
+  env        = var.env
+  default_vpc_id = var.default_vpc_id
+
+  for_each   = var.subnet
+  cidr_block = each.value.cidr_block
+  name = each.value.name
+  availability_zones = each.value.availability_zones
+  vpc_id = lookup(lookup(module.network_vpc,each.value.vpc_name,null ),"vpc_id",null )
+
+}
+
+output "vpc_id" {
+  value = lookup(lookup(module.network_vpc,"main",null ),"vpc_id",null )
+}
