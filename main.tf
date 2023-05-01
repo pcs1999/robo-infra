@@ -25,5 +25,5 @@ module "subnets" {
 }
 
 output "vpc_id" {
-  value = lookup(lookup(module.network_vpc,"main",null ),"vpc_id",null )
+  value = lookup(lookup(module.network_vpc,"dev_vpc",null ),"vpc_id",null )
 }
