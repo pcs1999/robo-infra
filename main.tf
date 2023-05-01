@@ -21,9 +21,12 @@ module "subnets" {
   availability_zones = each.value.availability_zones
   vpc_id = lookup(lookup(module.network_vpc,each.value.vpc_name,null ),"vpc_id",null )
   vpc_peering_connection_id = lookup(lookup(module.network_vpc,each.value.vpc_name,null ),"vpc_peering_connection_id",null )
+  internet_gw_id = lookup(lookup(module.network_vpc,each.value.vpc_name,null ),"internet_gw_id",null )
 
+  internet_gw = lookup(each.value, "internet-gw" , false )
+  nat_gw = lookup(each.value,"nat_gw",false )
 }
 
 output "vpc_id" {
-  value = lookup(lookup(module.network_vpc,"main",null ),"vpc_id",null )
+  value = module.subnets
 }
