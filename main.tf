@@ -30,6 +30,6 @@ module "network_vpc" {
 #  nat_gw = lookup(each.value,"nat_gw",false )
 #}
 
-#output "vpc_id" {
-#  value = module.subnets
-#}
+output "out" {
+  value = module.network_vpc
+}
