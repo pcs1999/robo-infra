@@ -22,6 +22,7 @@ module "network_vpc" {
 #// the subnet_ids is taking from output of module.network_vpc
 #}
 #
-#output "network_vpc" {
-#  value = module.network_vpc
-#}
+
+output "network_vpc" {
+  value = module.network_vpc
+}
