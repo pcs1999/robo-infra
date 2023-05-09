@@ -23,6 +23,8 @@ module "docdb" {
   allow_cidr = lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name,null),"private_subnets",null), "app",null), "cidr_block", null)
   vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null) // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
   engine_version = each.value.engine_version
+  number_of_instances = each.value.number_of_instances
+  instance_class = each.value.instance_class
 }
 
 output "network_vpc" {
