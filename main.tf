@@ -30,3 +30,19 @@ module "docdb" {
 output "network_vpc" {
   value = module.network_vpc
 }
+
+
+module "rds" {
+  source = "github.com/pcs1999/tf_module_rds.git"
+  env    = var.env
+  for_each = var.rds
+  subnet_ids = lookup(lookup(lookup(lookup(module.network_vpc, each.value.vpc_name, null), "private_subnets_ids", null), each.value.subnets_name, null), "subnet_id", null )
+  // the subnet_ids is taking from output of module.network_vpc
+  allow_cidr = lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name,null),"private_subnets",null), "app",null), "cidr_block", null)
+  vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null) // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
+  engine_version = each.value.engine_version
+  engine = each.value.engine
+  number_of_instances = each.value.number_of_instances
+  instance_class = each.value.instance_class
+
+}
