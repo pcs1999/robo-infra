@@ -60,7 +60,7 @@ module "elasticache" {
 }
 
 module "rabbitmq" {
-  source = "https://github.com/pcs1999/tf-module-rabbittmq.git"
+  source = "github.com/pcs1999/tf-module-rabbittmq.git"
   env    = var.env
   for_each = var.rabbitmq
   subnet_ids = lookup(lookup(lookup(lookup(module.network_vpc, each.value.vpc_name, null), "private_subnets_ids", null), each.value.subnets_name, null), "subnet_id", null )
