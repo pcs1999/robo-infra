@@ -59,6 +59,19 @@ module "elasticache" {
 
 }
 
+module "rabbitmq" {
+  source = "github.com/pcs1999/tf_module_rabbittmq.git"
+  env    = var.env
+  for_each = var.rabbitmq
+  subnet_ids = lookup(lookup(lookup(lookup(module.network_vpc, each.value.vpc_name, null), "private_subnets_ids", null), each.value.subnets_name, null), "subnet_id", null )
+  allow_cidr = lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name,null),"private_subnets",null), "app",null), "cidr_block", null)
+  vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null) // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
+  engine_version = each.value.engine_version
+  engine_type =  each.value.engine_type
+  host_instance_type =  each.value.host_instance_type
+}
+
+
 output "network_vpc" {
   value = module.network_vpc
 }

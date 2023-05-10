@@ -69,4 +69,14 @@ elasticache = {
   }
 }
 
+rabbitmq = {
+  main = {
+    vpc_name = "main"
+    engine_version = "3.10.10"
+    engine_type = "Rabbitmq"
+    subnets_name = "db"
+    host_instance_type= "mq.t3.micro"
+
+  }
+}
 
