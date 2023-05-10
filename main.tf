@@ -27,9 +27,7 @@ module "docdb" {
   instance_class = each.value.instance_class
 }
 
-output "network_vpc" {
-  value = module.network_vpc
-}
+
 
 
 module "rds" {
@@ -59,4 +57,8 @@ module "elasticache" {
   num_node_groups = each.value.num_node_groups
   node_type = each.value.node_type
 
+}
+
+output "network_vpc" {
+  value = module.network_vpc
 }
