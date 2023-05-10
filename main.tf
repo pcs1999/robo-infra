@@ -46,3 +46,17 @@ module "rds" {
   instance_class = each.value.instance_class
 
 }
+
+module "elasticache" {
+  source = "github.com/pcs1999/tf_module_elastic_cache.git"
+  env    = var.env
+  for_each = var.elasticache
+  subnet_ids = lookup(lookup(lookup(lookup(module.network_vpc, each.value.vpc_name, null), "private_subnets_ids", null), each.value.subnets_name, null), "subnet_id", null )
+  // the subnet_ids is taking from output of module.network_vpc
+  allow_cidr = lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name,null),"private_subnets",null), "app",null), "cidr_block", null)
+  vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null) // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
+  replicas_per_node_group = each.value.replicas_per_node_group
+  num_node_groups = each.value.num_node_groups
+  node_type = each.value.node_type
+
+}
