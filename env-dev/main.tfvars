@@ -76,6 +76,7 @@ rabbitmq = {
     engine_type = "Rabbitmq"
     subnets_name = "db"
     host_instance_type= "mq.t3.micro"
+    deployment_mode = "SINGLE_INSTANCE"
 
   }
 }
