@@ -126,7 +126,7 @@ app = {
     min_size                  = 1
     desired_capacity          = 1
 
-    instance_type = ""
+    instance_type = "t3.micro"
 
   }
 }
