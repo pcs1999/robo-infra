@@ -81,3 +81,17 @@ rabbitmq = {
   }
 }
 
+alb = {
+  public = {
+    vpc_name = "main"
+    subnets_type = "public_subnets_ids"
+    subnets_name = "public"
+
+  }
+
+  private = {
+    vpc_name = "main"
+    subnets_type = "private_subnets_ids"
+    subnets_name = "app"
+  }
+}

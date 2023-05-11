@@ -5,5 +5,5 @@ variable "docdb" {}
 variable "rds" {}
 variable "elasticache" {}
 variable "rabbitmq" {}
-#variable "internet_gw" {}
+variable "alb" {}
 #variable "nat_gw" {}
