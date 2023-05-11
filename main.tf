@@ -93,7 +93,7 @@ module "app" {
 #  subnets_name = each.value.subnets_name
   component = each.value.component
   app_port = each.value.app_port
-  max_size = each.value.maxsize
+  max_size = each.value.max_size
   min_size = each.value.min_size
   desired_capacity = each.value.desired_capacity
   instance_type = each.value.instance_type
