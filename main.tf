@@ -80,7 +80,21 @@ module "alb" {
   allow_cidr = lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name,null),"private_subnets",null), "app",null), "cidr_block", null)
   vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null) // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
   subnets_name = each.value.subnets_name
+  internal = each.value.internal
 }
+
+module "app" {
+  source = "github.com/pcs1999/tf-module-app.git"
+  env    = var.env
+  for_each = var.app
+  subnet_ids = lookup(lookup(lookup(lookup(module.network_vpc, each.value.vpc_name, null), each.value.subnets_type, null), each.value.subnets_name, null), "subnet_id", null )
+  allow_cidr = lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name,null),"private_subnets",null), "app",null), "cidr_block", null)
+  vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null) // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
+  subnets_name = each.value.subnets_name
+  component = each.value.component
+  app_port = each.value.app_port
+}
+
 
 output "network_vpc" {
   value = module.network_vpc
