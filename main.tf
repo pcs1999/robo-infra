@@ -97,6 +97,7 @@ module "app" {
   min_size = each.value.min_size
   desired_capacity = each.value.desired_capacity
   instance_type = each.value.instance_type
+  bastion_cidr =var.bastion_cidr
 }
 
 
