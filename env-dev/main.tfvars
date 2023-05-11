@@ -107,6 +107,11 @@ app = {
     app_port = 80
     allow_cidr_subnet_types = "public_subnets"
     allow_cidr_subnet_name = "public"
+    max_size                  = 2
+    min_size                  = 1
+    desired_capacity          = 1
+
+    instance_type = "t3.micro"
   }
 
   catalogue = {
@@ -117,6 +122,11 @@ app = {
     app_port = 8080
     allow_cidr_subnet_types = "private_subnets"
     allow_cidr_subnet_name = "app"
+    max_size                  = 2
+    min_size                  = 1
+    desired_capacity          = 1
+
+    instance_type = ""
 
   }
 }
