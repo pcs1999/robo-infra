@@ -53,9 +53,9 @@ module "elasticache" {
   // the subnet_ids is taking from output of module.network_vpc
   allow_cidr = lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name,null),"private_subnets",null), "app",null), "cidr_block", null)
   vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null) // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
-  replicas_per_node_group = each.value.replicas_per_node_group
-  num_node_groups = each.value.num_node_groups
+  num_cache_nodes = each.value.num_cache_nodes
   node_type = each.value.node_type
+  engine_version = each.value.engine_version
 
 }
 
@@ -104,4 +104,8 @@ module "app" {
 
 output "network_vpc" {
   value = module.network_vpc
+}
+
+output "elastic_cache" {
+  value = module.elasticache
 }

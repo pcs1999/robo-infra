@@ -64,9 +64,9 @@ elasticache = {
   main = {
     vpc_name = "main"
     subnets_name = "db"
-    replicas_per_node_group = 1
-    num_node_groups = 1
+    num_cache_nodes = 1
     node_type = "cache.t3.micro"
+    engine_version = "6.x"
   }
 }
 
