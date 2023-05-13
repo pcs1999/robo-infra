@@ -85,6 +85,7 @@ module "alb" {
 
 module "app" {
   source = "github.com/pcs1999/tf-module-app.git"
+  depends_on = [module.docdb, module.rds, module.elasticache, module.rabbitmq]
   env    = var.env
   for_each = var.app
   subnet_ids = lookup(lookup(lookup(lookup(module.network_vpc, each.value.vpc_name, null), each.value.subnets_type, null), each.value.subnets_name, null), "subnet_id", null )
