@@ -78,7 +78,6 @@ module "alb" {
   source = "github.com/pcs1999/tf-module-alb.git"
   env    = var.env
   for_each = var.alb
-  alb       = lookup(lookup(module.alb, each.value.alb,null ), "dns_name",null)
   subnet_ids = lookup(lookup(lookup(lookup(module.network_vpc, each.value.vpc_name, null), each.value.subnets_type, null), each.value.subnets_name, null), "subnet_id", null )
   allow_cidr = lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name,null),"private_subnets",null), "app",null), "cidr_block", null)
   vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null) // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
@@ -91,6 +90,8 @@ module "app" {
   depends_on = [module.docdb, module.rds, module.elasticache, module.rabbitmq]
   env    = var.env
   for_each = var.app
+  alb       = lookup(lookup(module.alb, each.value.alb,null ), "dns_name",null)
+
   subnet_ids = lookup(lookup(lookup(lookup(module.network_vpc, each.value.vpc_name, null), each.value.subnets_type, null), each.value.subnets_name, null), "subnet_id", null )
   allow_cidr = lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name,null),each.value.allow_cidr_subnet_types,null), each.value.allow_cidr_subnet_name,null), "cidr_block", null)
   vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null) // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
