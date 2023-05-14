@@ -111,7 +111,7 @@ app = {
     max_size                  = 2
     min_size                  = 1
     desired_capacity          = 1
-
+    alb                       = "public"
     instance_type = "t3.micro"
   }
 
@@ -126,6 +126,7 @@ app = {
     max_size                  = 2
     min_size                  = 1
     desired_capacity          = 1
+    alb                       = "private"
 
     instance_type = "t3.micro"
 
@@ -141,6 +142,7 @@ app = {
     max_size                  = 2
     min_size                  = 1
     desired_capacity          = 1
+    alb                       = "private"
 
     instance_type = "t3.micro"
 
@@ -156,6 +158,7 @@ app = {
     max_size                  = 2
     min_size                  = 1
     desired_capacity          = 1
+    alb                       = "private"
 
     instance_type = "t3.micro"
 
@@ -171,6 +174,7 @@ app = {
     max_size                  = 2
     min_size                  = 1
     desired_capacity          = 1
+    alb                       = "private"
 
     instance_type = "t3.micro"
 
@@ -187,6 +191,7 @@ app = {
     max_size                  = 2
     min_size                  = 1
     desired_capacity          = 1
+    alb                       = "private"
 
     instance_type = "t3.micro"
 
