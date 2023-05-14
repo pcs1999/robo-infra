@@ -70,6 +70,8 @@ module "rabbitmq" {
   engine_type =  each.value.engine_type
   host_instance_type =  each.value.host_instance_type
   deployment_mode =  each.value.deployment_mode
+  bastion_cidr =var.bastion_cidr
+
 }
 
 module "alb" {
