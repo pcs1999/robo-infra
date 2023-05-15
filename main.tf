@@ -109,14 +109,7 @@ module "app" {
 }
 
 
-#output "network_vpc" {
-#  value = module.network_vpc
-#}
-#
-#output "elastic_cache" {
-#  value = module.elasticache
-#}
-#
-#output "alb_dns" {
-#  value = module.alb
-#}
+
+output "alb" {
+  value = module.alb
+}
