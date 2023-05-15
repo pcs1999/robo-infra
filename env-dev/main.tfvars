@@ -150,20 +150,20 @@ app = {
 
   }
   cart = {
-    component = "cart"
-    vpc_name = "main"
-    subnets_type = "private_subnets_ids"
-    subnets_name = "app"
-    app_port = 8080
-    allow_cidr_subnet_types = "private_subnets"
-    allow_cidr_subnet_name = "app"
-    max_size                  = 2
-    min_size                  = 1
-    desired_capacity          = 1
-    alb                       = "private"
-    listener_priority = 102
+    component                = "cart"
+    vpc_name                 = "main"
+    subnets_type             = "private_subnets_ids"
+    subnets_name             = "app"
+    app_port                 = 8080
+    allow_cidr_subnet_types  = "private_subnets"
+    allow_cidr_subnet_name   = "app"
+    max_size                 = 2
+    min_size                 = 1
+    desired_capacity         = 1
+    instance_type            = "t3.micro"
+    alb                      = "private"
+    listener_priority        = 102
 
-    instance_type = "t3.micro"
 
   }
   shipping = {
