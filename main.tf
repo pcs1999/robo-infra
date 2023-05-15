@@ -96,6 +96,7 @@ module "app" {
   allow_cidr = lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name,null),each.value.allow_cidr_subnet_types,null), each.value.allow_cidr_subnet_name,null), "cidr_block", null)
   vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null) // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
   component = each.value.component
+  alb_arn = lookup(lookup(module.alb, each.value.alb,null ), "alb_arn",null)
   app_port = each.value.app_port
   max_size = each.value.max_size
   min_size = each.value.min_size
