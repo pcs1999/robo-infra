@@ -9,3 +9,4 @@ variable "alb" {}
 variable "app" {}
 variable "bastion_cidr" {}
 variable "monitor_cidr" {}
+variable "elk_cidr" {}
