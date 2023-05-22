@@ -182,7 +182,7 @@ app = {
     alb                       = "private"
     listener_priority = 103
 
-    instance_type = "t3.small"
+    instance_type = "t3.medium"
 
   }
 
