@@ -114,7 +114,7 @@ app = {
     min_size                  = 2
     desired_capacity          = 2
     alb                       = "public"
-    instance_type = "t3.micro"
+    instance_type = "t3.medium"
     listener_priority = 0
   }
 
@@ -131,7 +131,7 @@ app = {
     desired_capacity          = 2
     alb                       = "private"
     listener_priority = 100
-    instance_type = "t3.micro"
+    instance_type = "t3.medium"
 
   }
   user = {
@@ -148,7 +148,7 @@ app = {
     alb                       = "private"
     listener_priority = 101
 
-    instance_type = "t3.micro"
+    instance_type = "t3.medium"
 
   }
   cart = {
@@ -162,7 +162,7 @@ app = {
     max_size                  = 5
     min_size                  = 2
     desired_capacity          = 2
-    instance_type            = "t3.micro"
+    instance_type            = "t3.medium"
     alb                      = "private"
     listener_priority        = 102
 
@@ -176,13 +176,13 @@ app = {
     app_port = 8080
     allow_cidr_subnet_types = "private_subnets"
     allow_cidr_subnet_name = "app"
-    max_size                  = 5
-    min_size                  = 2
-    desired_capacity          = 2
+    max_size                  = 10
+    min_size                  = 3
+    desired_capacity          = 3
     alb                       = "private"
     listener_priority = 103
 
-    instance_type = "t3.medium"
+    instance_type = "t3.large"
 
   }
 
@@ -200,7 +200,7 @@ app = {
     alb                       = "private"
     listener_priority = 104
 
-    instance_type = "t3.micro"
+    instance_type = "t3.medium"
 
   }
 }
