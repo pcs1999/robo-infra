@@ -85,6 +85,7 @@ module "alb" {
   // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
   subnets_name = each.value.subnets_name
   internal = each.value.internal
+  dns_domain = each.value.dns_domain
 }
 
 module "app" {
