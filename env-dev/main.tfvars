@@ -1,7 +1,7 @@
 env = "dev"
 default_vpc_id =  "vpc-098ed72700f5aff0a"
 bastion_cidr = ["172.31.15.221/32"] // from workstation to connect to app server
-monitor_cidr = ["172.31.90.115/32"] // elk server to monitor logs
+monitor_cidr = ["172.31.12.132/32"] // prometheus server to monitor logs
 
 
 vpc = {
