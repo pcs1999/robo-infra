@@ -107,7 +107,6 @@ module "app" {
   instance_type = each.value.instance_type
   bastion_cidr =var.bastion_cidr
   monitor_cidr = var.monitor_cidr
-#  elk_cidr = var.elk_cidr
   listener_priority = each.value.listener_priority
 }
 
