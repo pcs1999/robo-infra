@@ -1,5 +1,5 @@
 env = "prod"
-default_vpc_id =  "vpc-098ed72700f5aff0a"
+default_vpc_id = "vpc-098ed72700f5aff0a"
 bastion_cidr = ["172.31.15.221/32"]
 monitor_cidr = ["172.31.90.115/32"]
 
