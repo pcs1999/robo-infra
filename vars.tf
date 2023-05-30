@@ -9,4 +9,5 @@ variable "alb" {}
 variable "app" {}
 variable "bastion_cidr" {}
 variable "monitor_cidr" {}
+variable "Hosted_zone" {}
 #variable "elk_cidr" {}
