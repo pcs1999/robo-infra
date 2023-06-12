@@ -59,34 +59,34 @@ module "elasticache" {
 
 }
 
-#module "rabbitmq" {
-#  source = "github.com/pcs1999/tf-module-rabbittmq.git"
-#  env    = var.env
-#  for_each = var.rabbitmq
-#  subnet_ids = lookup(lookup(lookup(lookup(module.network_vpc, each.value.vpc_name, null), "private_subnets_ids", null), each.value.subnets_name, null), "subnet_id", null )
-#  allow_cidr = lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name,null),"private_subnets",null), "app",null), "cidr_block", null)
-#  vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null) // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
-#  engine_version = each.value.engine_version
-#  engine_type =  each.value.engine_type
-#  host_instance_type =  each.value.host_instance_type
-#  deployment_mode =  each.value.deployment_mode
-#  bastion_cidr =var.bastion_cidr
-#
-#}
-
-module "alb" {
-  source = "github.com/pcs1999/tf-module-alb.git"
+module "rabbitmq" {
+  source = "github.com/pcs1999/tf-module-rabbittmq.git"
   env    = var.env
-  for_each = var.alb
-  subnet_ids = lookup(lookup(lookup(lookup(module.network_vpc, each.value.vpc_name, null), each.value.subnets_type, null), each.value.subnets_name, null), "subnet_id", null )
-  allow_cidr   = each.value.internal ? concat(lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name, null), "private_subnets", null), "web", null), "cidr_block", null), lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name, null), "private_subnets", null), "app", null), "cidr_block", null)) : ["0.0.0.0/0"]
-  //allow_cidr   = each.value.internal ? lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name, null), "private_subnets", null), "web", null), "cidr_block", null) : [ "0.0.0.0/0" ]
-  vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null)
-  // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
-  subnets_name = each.value.subnets_name
-  internal = each.value.internal
-  dns_domain = each.value.dns_domain
+  for_each = var.rabbitmq
+  subnet_ids = lookup(lookup(lookup(lookup(module.network_vpc, each.value.vpc_name, null), "private_subnets_ids", null), each.value.subnets_name, null), "subnet_id", null )
+  allow_cidr = lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name,null),"private_subnets",null), "app",null), "cidr_block", null)
+  vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null) // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
+  engine_version = each.value.engine_version
+  engine_type =  each.value.engine_type
+  host_instance_type =  each.value.host_instance_type
+  deployment_mode =  each.value.deployment_mode
+  bastion_cidr =var.bastion_cidr
+
 }
+
+#module "alb" {
+#  source = "github.com/pcs1999/tf-module-alb.git"
+#  env    = var.env
+#  for_each = var.alb
+#  subnet_ids = lookup(lookup(lookup(lookup(module.network_vpc, each.value.vpc_name, null), each.value.subnets_type, null), each.value.subnets_name, null), "subnet_id", null )
+#  allow_cidr   = each.value.internal ? concat(lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name, null), "private_subnets", null), "web", null), "cidr_block", null), lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name, null), "private_subnets", null), "app", null), "cidr_block", null)) : ["0.0.0.0/0"]
+#  //allow_cidr   = each.value.internal ? lookup(lookup(lookup(lookup(var.vpc, each.value.vpc_name, null), "private_subnets", null), "web", null), "cidr_block", null) : [ "0.0.0.0/0" ]
+#  vpc_id = lookup(lookup(module.network_vpc, each.value.vpc_name , null), "vpc_id", null)
+#  // strings are in double quotes,expressions are not exp=each.value.vpc_name , strings="vpc_id"
+#  subnets_name = each.value.subnets_name
+#  internal = each.value.internal
+#  dns_domain = each.value.dns_domain
+#}
 
 // this is only for server immutable and mutable approach
 
@@ -119,46 +119,46 @@ output "network_vpc" {
 }
 
 
-module "minikube" {
-  source = "github.com/scholzj/terraform-aws-minikube"
-
-  aws_region        = "us-east-1"
-  cluster_name      = "minikube"
-  aws_instance_type = "t3.medium"
-  ssh_public_key    = "~/.ssh/id_rsa.pub"
-  aws_subnet_id     = element(lookup(lookup(lookup(lookup(module.network_vpc, "main", null), "public_subnets_ids", null), "public", null), "subnet_id", null ), 0)
-  //ami_image_id        = data.aws_ami.ami.id
-  hosted_zone         = var.Hosted_zone
-  hosted_zone_private = false
-
-  tags = {
-    Application = "Minikube"
-  }
-
-  addons = [
-    "https://raw.githubusercontent.com/scholzj/terraform-aws-minikube/master/addons/storage-class.yaml",
-    "https://raw.githubusercontent.com/scholzj/terraform-aws-minikube/master/addons/heapster.yaml",
-    "https://raw.githubusercontent.com/scholzj/terraform-aws-minikube/master/addons/dashboard.yaml",
-    "https://raw.githubusercontent.com/scholzj/terraform-aws-minikube/master/addons/external-dns.yaml"
-  ]
-}
-
-output "MINIKUBE_SERVER" {
-  value = "ssh centos@${module.minikube.public_ip}"
-}
-
-output "KUBE_CONFIG" {
-  value = "scp centos@${module.minikube.public_ip}:/home/centos/kubeconfig ~/.kube/config"
-}
-
-
-#module "eks" {
-#  source                 = "github.com/r-devops/tf-module-eks"
-#  ENV                    = var.env
-#  PRIVATE_SUBNET_IDS     = lookup(lookup(lookup(lookup(module.vpc, "main", null), "private_subnets_ids", null), "app", null), "subnet_id", null)
-#  PUBLIC_SUBNET_IDS      = lookup(lookup(lookup(lookup(module.vpc, "main", null), "public_subnets_ids", null), "public", null), "subnet_id", null)
-#  DESIRED_SIZE           = 2
-#  MAX_SIZE               = 2
-#  MIN_SIZE               = 2
-#  CREATE_PARAMETER_STORE = true
+#module "minikube" {
+#  source = "github.com/scholzj/terraform-aws-minikube"
+#
+#  aws_region        = "us-east-1"
+#  cluster_name      = "minikube"
+#  aws_instance_type = "t3.medium"
+#  ssh_public_key    = "~/.ssh/id_rsa.pub"
+#  aws_subnet_id     = element(lookup(lookup(lookup(lookup(module.network_vpc, "main", null), "public_subnets_ids", null), "public", null), "subnet_id", null ), 0)
+#  //ami_image_id        = data.aws_ami.ami.id
+#  hosted_zone         = var.Hosted_zone
+#  hosted_zone_private = false
+#
+#  tags = {
+#    Application = "Minikube"
+#  }
+#
+#  addons = [
+#    "https://raw.githubusercontent.com/scholzj/terraform-aws-minikube/master/addons/storage-class.yaml",
+#    "https://raw.githubusercontent.com/scholzj/terraform-aws-minikube/master/addons/heapster.yaml",
+#    "https://raw.githubusercontent.com/scholzj/terraform-aws-minikube/master/addons/dashboard.yaml",
+#    "https://raw.githubusercontent.com/scholzj/terraform-aws-minikube/master/addons/external-dns.yaml"
+#  ]
 #}
+#
+#output "MINIKUBE_SERVER" {
+#  value = "ssh centos@${module.minikube.public_ip}"
+#}
+#
+#output "KUBE_CONFIG" {
+#  value = "scp centos@${module.minikube.public_ip}:/home/centos/kubeconfig ~/.kube/config"
+#}
+
+
+module "eks" {
+  source                 = "github.com/r-devops/tf-module-eks"
+  ENV                    = var.env
+  PRIVATE_SUBNET_IDS     = lookup(lookup(lookup(lookup(module.network_vpc, "main", null), "private_subnets_ids", null), "app", null), "subnet_id", null)
+  PUBLIC_SUBNET_IDS      = lookup(lookup(lookup(lookup(module.network_vpc, "main", null), "public_subnets_ids", null), "public", null), "subnet_id", null)
+  DESIRED_SIZE           = 2
+  MAX_SIZE               = 2
+  MIN_SIZE               = 2
+  CREATE_PARAMETER_STORE = true
+}
