@@ -159,6 +159,6 @@ module "eks" {
   PUBLIC_SUBNET_IDS      = lookup(lookup(lookup(lookup(module.network_vpc, "main", null), "public_subnets_ids", null), "public", null), "subnet_id", null)
   DESIRED_SIZE           = 2
   MAX_SIZE               = 2
-  MIN_SIZE               = 2
+  MIN_SIZE               = 1
   CREATE_PARAMETER_STORE = true
 }
